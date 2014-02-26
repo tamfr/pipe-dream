@@ -3,29 +3,34 @@
 \usepackage{pythontex}
 
 \begin{document}
+
+% =========================================== new section =========================================== 
 \section{Velocity Diagram}
-\hspace*{-1.3in}	
-\begin{circuitikz}[font=\tiny]	
+
+\hspace*{-1.3in} % Shifts figure left outside of the default article class margins.
+\begin{circuitikz}[font=\tiny] % Make default font size for text in the resistive network diagram tiny.
 \ctikzset { label/align = straight }
 
 \def\hspc{3.2} % horizontal spacing
 \def\vspc{4} % vertical spacing
 
 \begin{pycode}
-from pipe.pipe import pipe
-ans = pipe()
+from pipe.pipe import pipe # Import the module that runs the python program pipe.py, which analyzes the fluidics network.
+ans = pipe() # Run the function that returns all velocities and mass flow rates in a python dictionary for the legs of the fluidics network.
 
-nodesMainStart = ["","","","A"]
-nodesMainEnd = ["E","D","C","B"]
-nodesHorizontal = [["U","V","W","X","Y"],["P","Q","R","S","T"],["K","L","M","N","O"],["F","G","H","I","J"]]
-velMain = ["v_7","v_5","v_3","v_1"] 
-velHorizontal = [["v_8","v_40","v_42","v_44","v_46"],["v_6","v_30","v_32","v_34","v_36"],["v_4","v_20","v_22","v_24","v_26"],["v_2","v_10","v_12","v_14","v_16"]]
-velVertical = [["v_41","v_43","v_45","v_47","v_49"],["v_31","v_33","v_35","v_37","v_39"],["v_21","v_23","v_25","v_27","v_29"],["v_11","v_13","v_15","v_17","v_19"]]
+nodesMainStart = ["","","","A"] # Array to label the initial node of the supply leg of the resistive network diagram.
+nodesMainEnd = ["E","D","C","B"] # Array to label the nodes of the primary manifold of the resistive network diagram.
+nodesHorizontal = [["U","V","W","X","Y"],["P","Q","R","S","T"],["K","L","M","N","O"],["F","G","H","I","J"]] # Array to label the nodes of the rest of the resistive network diagram.
+velMain = ["v_7","v_5","v_3","v_1"] # Array to label the primary legs of the resistive network diagram.
+velHorizontal = [["v_8","v_40","v_42","v_44","v_46"],["v_6","v_30","v_32","v_34","v_36"],["v_4","v_20","v_22","v_24","v_26"],["v_2","v_10","v_12","v_14","v_16"]] # Array to label the horizontal legs of the resistive network diagram.
+velVertical = [["v_41","v_43","v_45","v_47","v_49"],["v_31","v_33","v_35","v_37","v_39"],["v_21","v_23","v_25","v_27","v_29"],["v_11","v_13","v_15","v_17","v_19"]] # Array to label the vertical legs of the resistive network diagram.
 
-massMain = ["m_7","m_5","m_3","m_1"] 
-massHorizontal = [["m_8","m_40","m_42","m_44","m_46"],["m_6","m_30","m_32","m_34","m_36"],["m_4","m_20","m_22","m_24","m_26"],["m_2","m_10","m_12","m_14","m_16"]]
-massVertical = [["m_41","m_43","m_45","m_47","m_49"],["m_31","m_33","m_35","m_37","m_39"],["m_21","m_23","m_25","m_27","m_29"],["m_11","m_13","m_15","m_17","m_19"]]
+# The following arrays are used in the second diagram, but established here for efficiency.
+massMain = ["m_7","m_5","m_3","m_1"]  # Array to label the primary legs of the resistive network diagram.
+massHorizontal = [["m_8","m_40","m_42","m_44","m_46"],["m_6","m_30","m_32","m_34","m_36"],["m_4","m_20","m_22","m_24","m_26"],["m_2","m_10","m_12","m_14","m_16"]] # Array to label the horizontal legs of the resistive network diagram.
+massVertical = [["m_41","m_43","m_45","m_47","m_49"],["m_31","m_33","m_35","m_37","m_39"],["m_21","m_23","m_25","m_27","m_29"],["m_11","m_13","m_15","m_17","m_19"]] # Array to label the vertical legs of the resistive network diagram.
 
+# Loop that generates the resistive network diagram and labels it with the proper velocities in each leg (i.e. resistor).
 for j in range(0,4):
     for i in range(0,5):
         # Velocity diagram
@@ -39,6 +44,7 @@ for j in range(0,4):
 
 \end{circuitikz}
 
+% =========================================== new section =========================================== 
 \section{Mass Flow Rate Diagram}
 
 \hspace*{-1.3in}	
