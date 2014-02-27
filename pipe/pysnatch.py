@@ -28,9 +28,9 @@ Created on Fri Feb  7 16:49:17 2014
 from numpy import matrix
 from xlrd import open_workbook
 
-def xlsnatch(file_name_as_string,sheet_index,starting_row,starting_col,num_of_rows,num_of_cols): 
+def xlsnatch(file_name_as_string,sheet_index,starting_row,starting_col,num_of_rows,num_of_cols,output_type): 
     """
-    Imports data from a specified sheet from an MS Excel Workbook as a num_of_rows x num_of_cols matrix.
+    Imports data from a specified sheet from an MS Excel Workbook as a num_of_rows x num_of_cols matrix or list. To address output: my_matirix[rows,cols] or my_list[rows][cols]
     
     Dependencies: NumPy and xlrd
     """
@@ -40,5 +40,8 @@ def xlsnatch(file_name_as_string,sheet_index,starting_row,starting_col,num_of_ro
     if num_of_rows > sheet.nrows - starting_row + 1 | num_of_cols > sheet.ncols - starting_col + 1:
         print 'You requested more rows or columns than there are in the sheet!'
     
-    return matrix([[(sheet.cell(row_index,col_index).value if sheet.cell(row_index,col_index).value !='' else 0) for col_index in range(starting_col-1,starting_col-1+num_of_cols)] for row_index in range(starting_row-1,starting_row-1+num_of_rows)])
+    if output_type in ("matrix","Matrix","m","M","matrices","Matrices"):
+        return matrix([[(sheet.cell(row_index,col_index).value if sheet.cell(row_index,col_index).value !='' else 0) for col_index in range(starting_col-1,starting_col-1+num_of_cols)] for row_index in range(starting_row-1,starting_row-1+num_of_rows)])
+    if output_type in ("list","List","l","L","lists","Lists"):
+        return [[(sheet.cell(row_index,col_index).value if sheet.cell(row_index,col_index).value !='' else 0) for col_index in range(starting_col-1,starting_col-1+num_of_cols)] for row_index in range(starting_row-1,starting_row-1+num_of_rows)]
     
