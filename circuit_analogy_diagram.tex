@@ -14,6 +14,13 @@
 
 \begin{document}
 
+\begin{pycode}
+
+from pipe.pipe import pipe # Import the module that runs the python program pipe.py, which analyzes the fluidics network.
+ans = pipe() # Run the function that returns all velocities and mass flow rates, and other information for the fluidics network stored as a python dictionary.
+
+\end{pycode}
+
 % =========================================== new section =========================================== 
 \section{Velocity Diagram}
 
@@ -25,8 +32,6 @@
 \def\vspc{4} % vertical spacing
 
 \begin{pycode}
-from pipe.pipe import pipe # Import the module that runs the python program pipe.py, which analyzes the fluidics network.
-ans = pipe() # Run the function that returns all velocities and mass flow rates in a python dictionary for the legs of the fluidics network.
 
 nodesMainStart = ["","","","A"] # Array to label the initial node of the supply leg of the resistive network diagram.
 nodesMainEnd = ["E","D","C","B"] # Array to label the nodes of the primary manifold of the resistive network diagram.
@@ -44,11 +49,11 @@ massVertical = [["m_41","m_43","m_45","m_47","m_49"],["m_31","m_33","m_35","m_37
 for j in range(0,4):
     for i in range(0,5):
         # Velocity diagram
-        print(r"\draw (%s*\hspc,%s*\vspc) to [R=$%s$,*-*,i^>=$$] (%s*\hspc+\hspc,%s*\vspc) node[font=\small, anchor=south]{%s};" % (i, j, ans[velHorizontal[j][i]], i, j, nodesHorizontal[j][i]))
-        print(r"\draw (%s*\hspc+\hspc,%s*\vspc-2) node[font=\scriptsize, anchor=north] {Z} to [R=$%s$,i<^=$$,o-*] (%s*\hspc+\hspc,%s*\vspc);" % (i, j, ans[velVertical[j][i]], i, j))
+        print(r"\draw (%s*\hspc,%s*\vspc) to [R=$%s$,*-*,i^>=$$] (%s*\hspc+\hspc,%s*\vspc) node[font=\small, anchor=south]{%s};" % (i, j, ans[velHorizontal[j][i]], i, j, nodesHorizontal[j][i])) # Draws the horizontal resistors.
+        print(r"\draw (%s*\hspc+\hspc,%s*\vspc-2) node[font=\scriptsize, anchor=north] {Z} to [R=$%s$,i<^=$$,o-*] (%s*\hspc+\hspc,%s*\vspc);" % (i, j, ans[velVertical[j][i]], i, j)) # Draws the vertical resistors.
         
     # Velocity diagram
-    print(r"\draw (0,%s*\vspc) node[font=\small, anchor=east]{%s} to [R=$%s$, i<^=$$, *-*] (0,%s*\vspc+\vspc) node[font=\small, anchor=east]{%s};" % (j, nodesMainEnd[j], ans[velMain[j]], j, nodesMainStart[j]))
+    print(r"\draw (0,%s*\vspc) node[font=\small, anchor=east]{%s} to [R=$%s$, i<^=$$, *-*] (0,%s*\vspc+\vspc) node[font=\small, anchor=east]{%s};" % (j, nodesMainEnd[j], ans[velMain[j]], j, nodesMainStart[j])) # Draws the main supply resistors (ones on far left).
 
 \end{pycode}
 
