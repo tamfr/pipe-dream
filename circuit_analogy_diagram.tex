@@ -30,6 +30,8 @@ ans = pipe() # Run the function that returns all velocities and mass flow rates,
 
 \def\hspc{3.2} % horizontal spacing
 \def\vspc{4} % vertical spacing
+\def\vertLength{1.5} % vertical resistor length
+\def\vertOffset{0} % vertical offset
 
 \begin{pycode}
 
@@ -39,16 +41,19 @@ nodesHorizontal = [["U","V","W","X","Y"],["P","Q","R","S","T"],["K","L","M","N",
 velMain = ["v_7","v_5","v_3","v_1"] # Array to label the primary legs of the resistive network diagram.
 velHorizontal = [["v_8","v_40","v_42","v_44","v_46"],["v_6","v_30","v_32","v_34","v_36"],["v_4","v_20","v_22","v_24","v_26"],["v_2","v_10","v_12","v_14","v_16"]] # Array to label the horizontal legs of the resistive network diagram, each row corresponds to a row in the network diagram.
 velVertical = [["v_41","v_43","v_45","v_47","v_49"],["v_31","v_33","v_35","v_37","v_39"],["v_21","v_23","v_25","v_27","v_29"],["v_11","v_13","v_15","v_17","v_19"]] # Array to label the vertical legs of the resistive network diagram, each row corresponds to a row of vertical legs in the network diagram.
+velVerticalOne = [["v_141","v_143","v_145","v_147","v_149"],["v_131","v_133","v_135","v_137","v_139"],["v_121","v_123","v_125","v_127","v_129"],["v_111","v_113","v_115","v_117","v_119"]] # Array to label the vertical legs of the resistive network diagram, each row corresponds to a row of vertical legs in the network diagram.
+velVerticalTwo = [["v_241","v_243","v_245","v_247","v_249"],["v_231","v_233","v_235","v_237","v_239"],["v_221","v_223","v_225","v_227","v_229"],["v_211","v_213","v_215","v_217","v_219"]] # Array to label the vertical legs of the resistive network diagram, each row corresponds to a row of vertical legs in the network diagram.
 
 # Loop that generates the resistive network diagram and labels it with the proper velocities in each leg (i.e. resistor).
 for j in range(0,4):
     for i in range(0,5):
         # Velocity diagram
-        print(r"\draw (%s*\hspc,%s*\vspc) to [R=$%s$,*-*,i^>=$$] (%s*\hspc+\hspc,%s*\vspc) node[font=\small, anchor=south]{%s};" % (i, j, ans[velHorizontal[j][i]], i, j, nodesHorizontal[j][i])) # Draws the horizontal resistors.
-        print(r"\draw (%s*\hspc+\hspc,%s*\vspc-2) node[font=\scriptsize, anchor=north] {Z} to [R=$%s$,i<^=$$,o-*] (%s*\hspc+\hspc,%s*\vspc);" % (i, j, ans[velVertical[j][i]], i, j)) # Draws the vertical resistors.
+        print(r"\draw (%s*\hspc,%s*\vspc+\vertOffset) to [R=$%s$,*-*,i^>=$$] (%s*\hspc+\hspc,%s*\vspc+\vertOffset) node[font=\small, anchor=south]{%s};" % (i, j, ans[velHorizontal[j][i]], i, j, nodesHorizontal[j][i])) # Draws the horizontal resistors.
+        print(r"\draw (%s*\hspc+\hspc,%s*\vspc-\vertLength+\vertOffset) node[font=\scriptsize, anchor=north] {Z} to [R=$%s$,i<^=$$,o-*] (%s*\hspc+\hspc,%s*\vspc+\vertOffset);" % (i, j, ans[velVertical[j][i]], i, j)) # Draws the vertical resistors.
+        print(r"\draw (%s*\hspc+\hspc,%s*\vspc-2*\vertLength+\vertOffset) node[font=\scriptsize, anchor=north] {Z} to [R=$%s$,i<^=$$,o-*] (%s*\hspc+\hspc,%s*\vspc-\vertLength+\vertOffset);" % (i, j, ans[velVerticalOne[j][i]], i, j)) # Draws the vertical resistors.
+        #print(r"\draw (%s*\hspc+\hspc,%s*\vspc-3*\vertLength+\vertOffset) node[font=\scriptsize, anchor=north] {Z} to [R=$%s$,i<^=$$,o-*] (%s*\hspc+\hspc,%s*\vspc-2*\vertLength+\vertOffset);" % (i, j, ans[velVerticalTwo[j][i]], i, j)) # Draws the vertical resistors.
         
-    # Velocity diagram
-    print(r"\draw (0,%s*\vspc) node[font=\small, anchor=east]{%s} to [R=$%s$, i<^=$$, *-*] (0,%s*\vspc+\vspc) node[font=\small, anchor=east]{%s};" % (j, nodesMainEnd[j], ans[velMain[j]], j, nodesMainStart[j])) # Draws the main supply resistors (ones on far left).
+    print(r"\draw (0,%s*\vspc+\vertOffset) node[font=\small, anchor=east]{%s} to [R=$%s$, i<^=$$, *-*] (0,%s*\vspc+\vspc+\vertOffset) node[font=\small, anchor=east]{%s};" % (j,  nodesMainEnd[j], ans[velMain[j]], j, nodesMainStart[j])) # Draws the main supply resistors (ones on far left).
 
 \end{pycode}
 
